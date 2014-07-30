@@ -101,7 +101,9 @@
     </Compile>
     <Compile Include="ICustomerServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TableStorageMethods.cs" />
+    <Compile Include="TableStorageMethods.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="WebRole.cs" />
   </ItemGroup>
   <ItemGroup>
