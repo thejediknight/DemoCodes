@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.Storage.Table;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,7 +9,7 @@ using System.Data.Services.Client;
 namespace CustomerServiceWCFWebRole
 {
     [DataServiceKey("PartitionKey", "RowKey")]
-    public class Customer
+    public class CustomerEntity : TableEntity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,12 +18,9 @@ namespace CustomerServiceWCFWebRole
 
 
         private readonly string partitionKey = "customer";
-        public string PartitionKey { get; set; }
-        public string RowKey { get; set; }
+        public CustomerEntity() { }
 
-        public Customer() { }
-
-        public Customer(string firstName, string lastName, string favoriteMovie, string favoriteLanguage)
+        public CustomerEntity(string firstName, string lastName, string favoriteMovie, string favoriteLanguage)
         {
             PartitionKey = partitionKey;
             RowKey = firstName + " " + lastName;
