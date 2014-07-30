@@ -20,8 +20,6 @@ namespace CustomerServiceWCFWebRole
     //This class provides the implementation of our service contract in ICustomerServices
     public class CustomerServices : ICustomerServices
     {
-        //Step:5
-
         // The first time the queue is initialized, it will set a boolean called storageInitialized 
         // to true, and then subsequent calls will know it is already initlaized.
         private static bool storageInitialized = false;
@@ -34,6 +32,14 @@ namespace CustomerServiceWCFWebRole
 
         // CloudQueue is the queue itself.
         private static CloudQueue queue;
+
+
+        // Change our service to call the TableStorageMethods instead of the SQL Database methods.
+        // We can switch between the two by using this Enum.
+        public enum DataBaseType { sqlazure, tablestorage }
+        private DataBaseType currentDataBase = DataBaseType.tablestorage;
+
+
 
         //initialize the queue, but only the first time 
         private void InitializeStorage()
@@ -130,8 +136,19 @@ namespace CustomerServiceWCFWebRole
             string errorMessage = string.Empty;
             favoriteMovie = string.Empty;
             favoriteLanguage = string.Empty;
-            CustomerFavorites cf = new CustomerFavorites();
-            errorMessage = cf.GetCustomerFavorites(out favoriteMovie, out favoriteLanguage, firstName, lastName);
+
+            if (currentDataBase == DataBaseType.sqlazure)
+            {
+                CustomerFavorites cf = new CustomerFavorites();
+                errorMessage = cf.GetCustomerFavorites(out favoriteMovie, out favoriteLanguage,
+                  firstName, lastName);
+            }
+            else
+            {
+                TableStorageMethods tsm = new TableStorageMethods();
+                errorMessage = tsm.ST_GetCustomerFavorites(out favoriteMovie, out favoriteLanguage,
+                  firstName, lastName);
+            }
             return errorMessage;
         }
 
@@ -139,8 +156,18 @@ namespace CustomerServiceWCFWebRole
           string favoriteLanguage)
         {
             string errorMessage = string.Empty;
-            CustomerFavoritesUpdate cfu = new CustomerFavoritesUpdate();
-            errorMessage = cfu.SetCustomerFavorites(firstName, lastName, favoriteMovie, favoriteLanguage);
+
+            if (currentDataBase == DataBaseType.sqlazure)
+            {
+                CustomerFavoritesUpdate cfu = new CustomerFavoritesUpdate();
+                errorMessage = cfu.SetCustomerFavorites(firstName, lastName, favoriteMovie, favoriteLanguage);
+            }
+            else
+            {
+                TableStorageMethods tsm = new TableStorageMethods();
+                errorMessage = tsm.ST_SetCustomerFavorites(firstName, lastName, favoriteMovie, favoriteLanguage);
+            }
+
             return errorMessage;
         }
 
@@ -148,8 +175,18 @@ namespace CustomerServiceWCFWebRole
           string favoriteMovie, string favoriteLanguage)
         {
             string errorMessage = string.Empty;
-            CustomerFavoritesAdd cfa = new CustomerFavoritesAdd();
-            errorMessage = cfa.AddCustomer(firstName, lastName, favoriteMovie, favoriteLanguage);
+
+            if (currentDataBase == DataBaseType.sqlazure)
+            {
+                CustomerFavoritesAdd cfa = new CustomerFavoritesAdd();
+                errorMessage = cfa.AddCustomer(firstName, lastName, favoriteMovie, favoriteLanguage);
+            }
+            else
+            {
+                TableStorageMethods tsm = new TableStorageMethods();
+                errorMessage = tsm.ST_AddCustomer(firstName, lastName, favoriteMovie, favoriteLanguage);
+            }
+
             return errorMessage;
         }
 
@@ -158,8 +195,18 @@ namespace CustomerServiceWCFWebRole
         {
             string errorMessage = string.Empty;
             customers = new DataSet();
-            CustomerList cl = new CustomerList();
-            errorMessage = cl.GetListOfCustomers(out customers);
+
+            if (currentDataBase == DataBaseType.sqlazure)
+            {
+                CustomerList cl = new CustomerList();
+                errorMessage = cl.GetListOfCustomers(out customers);
+            }
+            else
+            {
+                TableStorageMethods tsm = new TableStorageMethods();
+                errorMessage = tsm.ST_GetListOfCustomers(out customers);
+            }
+
             return errorMessage;
         }
 
