@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="AzureCustomerServiceBeta" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2014-01.2.3">
+  <Role name="CustomerServiceWCFWebRole">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <!--BEGIN added by @harshal-->
+      <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
+      <!--
+      <Setting name="dbConnString" value="Data Source=harshacw81\sqlexpress;Initial Catalog=CodeCamp;User ID=harshac;Password=YourPassword;" />
+      -->
+      <Setting name="dbConnString" value="Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\harshac\Downloads\CodeCampDatabase\CodeCamp.mdf;Integrated Security=True;Connect Timeout=30" />
+      <!-- This is the max number of times to try executing the database commands before giving up. -->
+      <Setting name="MaxTryCount" value="4" />
+      <!-- This is the time interval to sleep between SQL retries in case there's a problem. It's in ms. -->
+      <Setting name="RetrySleepInterval" value="2500" />
+      <!-- frequency, in seconds, to retrieve the perf counters -->
+      <Setting name="PerfMonSampleRate" value="60" />
+      <!-- frequency, in seconds, to transfer the perf counters to the logs from the system-->
+      <Setting name="PerfMonScheduledTransferPeriod" value="120" />
+      <Setting name="ProcessQueueName" value="codecampqueue" />
+      <!--END added by @harshal-->
+    </ConfigurationSettings>
+  </Role>
+  <Role name="CustomerWorker">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+    <!--Edit @harshal start-->
+      <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
+      <!-- frequency, in seconds, to retrieve the perf counters -->
+      <Setting name="PerfMonSampleRate" value="60" />
+      <!-- frequency, in seconds, to transfer the perf counters to the logs from the system-->
+      <Setting name="PerfMonScheduledTransferPeriod" value="120" />
+      <Setting name="ProcessQueueName" value="codecampqueue" />
+      <Setting name="QueueMessageVisibilityTime" value="120" />
+    <!--Edit @ harshal ends-->
+
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>

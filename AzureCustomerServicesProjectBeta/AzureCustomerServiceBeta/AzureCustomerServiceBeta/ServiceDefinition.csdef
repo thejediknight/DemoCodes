@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="AzureCustomerServiceBeta" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-01.2.3">
+  <WebRole name="CustomerServiceWCFWebRole" vmsize="Small">
+    <Sites>
+      <Site name="Web">
+        <Bindings>
+          <Binding name="Endpoint1" endpointName="Endpoint1" />
+        </Bindings>
+      </Site>
+    </Sites>
+    <Endpoints>
+      <InputEndpoint name="Endpoint1" protocol="http" port="80" />
+    </Endpoints>
+    <!--BEGIN edit@harshal-->
+    <ConfigurationSettings>
+      <Setting name="dbConnString" />
+      <Setting name="DataConnectionString" />
+      <Setting name="MaxTryCount" />
+      <Setting name="RetrySleepInterval" />
+      <Setting name="PerfMonSampleRate" />
+      <Setting name="PerfMonScheduledTransferPeriod" />
+      <Setting name="ProcessQueueName" />
+    </ConfigurationSettings>
+    <!--END edit@harshal-->
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+    <LocalResources>
+      <LocalStorage name="CustomerServiceWCFWebRole.svclog" sizeInMB="1000" cleanOnRoleRecycle="false" />
+    </LocalResources>
+  </WebRole>
+  <WorkerRole name="CustomerWorker" vmsize="Small">
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+    
+    <!--BEGIN edit@harshal-->
+    <ConfigurationSettings>
+      <Setting name="DataConnectionString" />
+      <Setting name="PerfMonSampleRate" />
+      <Setting name="PerfMonScheduledTransferPeriod" />
+      <Setting name="ProcessQueueName" />
+      <Setting name="QueueMessageVisibilityTime" />
+    </ConfigurationSettings>
+    <!--END edit@harshal-->
+
+  </WorkerRole>
+</ServiceDefinition>
