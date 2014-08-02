@@ -1,0 +1,30 @@
+﻿@model codeFirstSample.Models.Review
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Review</legend>
+
+        Write Review for: @ViewBag.bookName
+        @Html.HiddenFor(model => model.BookID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ReviewText)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.ReviewText)
+            @Html.ValidationMessageFor(model => model.ReviewText)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}

@@ -1,0 +1,39 @@
+﻿@model codeFirstSample.Models.Book
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Book</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BookName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BookName)
+            @Html.ValidationMessageFor(model => model.BookName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ISBN)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ISBN)
+            @Html.ValidationMessageFor(model => model.ISBN)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -1,0 +1,45 @@
+﻿@model codeFirstSample.Models.Book
+@{
+    ViewBag.Title = "Details";
+}
+<h2>
+    Details</h2>
+<fieldset>
+    <legend>Book</legend>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.BookName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BookName)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.ISBN)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ISBN)
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Reviews</legend>
+    <p>
+    @if (Model.Reviews.Count == 0)
+    {
+        <p><strong>No reviews</strong></p>
+    }
+    else
+    {
+        <p><strong>@Model.Reviews.Count reviews</strong></p>
+        <hr />
+        foreach (var item in Model.Reviews)
+        {
+            <p>@item.ReviewText</p>
+        }
+    }
+    </p>
+
+    @Html.ActionLink("Add a review", "Create", "Reviews", new { id = Model.BookID }, null)
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BookID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
